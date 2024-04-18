@@ -75,11 +75,11 @@ public class Catalogo {
         System.out.println("------>");
         for (Libro item: listalibros){
             if(item.equals(libro)){
-                System.out.println("Libro encontrado en la biblioteca");
+                System.out.println("Libro encontrado en el catálogo.");
                 return null;
             }
         }
-        System.out.println("Libro no encontrado en la biblioteca");
+        System.out.println("Libro no encontrado en el catálogo.");
         return libro;
     }
     public void quitarLibro(ArrayList<Libro> conjuntobusqueda){ //BUSCAR Y ELIMINAR LIBRO DEL CATÁLOGO
@@ -127,7 +127,7 @@ public class Catalogo {
             }
             else{
                 for (Libro item:conjuntoBusqueda){
-                    System.out.println("Libro nº"  + (incremento+1) +": "+ item.toString());
+                    System.out.println("Libro nº"  + (incremento=incremento+1) +": "+ item.toString());
                 }
             }
         }catch(Exception e){

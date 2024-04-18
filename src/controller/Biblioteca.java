@@ -87,7 +87,7 @@ public class Biblioteca<T extends Libro>{
            }
            else{
                for (T item:conjuntoBusqueda){
-                   System.out.println("Libro nº"  + (incremento+1) +": "+ item.toString());
+                   System.out.println("Libro nº"  + (incremento=incremento+1) +": "+ item.toString());
                }
            }
        }catch(Exception e){

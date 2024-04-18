@@ -24,7 +24,7 @@ public class Entrada{
             biblioteca.mostrardatosBiblioteca();
             System.out.println("Qué desea hacer?");
             System.out.println ("1. Gestionar libros." + "2. Gestionar catálogo.\n" +
-                    "3. Exportar catálogo(Debe crear uno primero)");
+                    "3. Exportar catálogo(Debe crear uno primero) || Pulse cualquier otra tecla para salir");
             respuesta=sc.nextInt();
             sc.nextLine();
             switch (respuesta){
@@ -58,13 +58,22 @@ public class Entrada{
                                     System.out.println("|------------------------------------------------------------|");
                                     System.out.println("Escriba el tipo de humor del libro:");
                                     String insert=sc.next();
-                                    for (Humor item : Humor.values()){
-                                        if (item.name().equalsIgnoreCase(insert)){
-                                            insercion=new Comedia(insNombre,insAutor,insIsbn,insnum,item);
-                                            biblioteca.agregarLibro(insercion);
-                                            break;
+                                    boolean encontrado=false;
+                                        for (Humor item : Humor.values()) {
+                                            if (item.name().equalsIgnoreCase(insert)) {
+                                                encontrado=true;
+                                                insercion = new Comedia(insNombre, insAutor, insIsbn, insnum, item);
+                                                biblioteca.agregarLibro(insercion);
+                                                break;
+                                            }
                                         }
+                                    if(encontrado){
+                                        break;
+                                    }else{
+                                        System.out.println("No se ha podido asignar el tipo de humor, cancleando operación.");
                                     }
+
+
                                     break;
                                 case 2://DE TERROR (como este proyecto xD)
                                     System.out.println("Indique del 1 al 10 el rating de este libro");
@@ -73,15 +82,17 @@ public class Entrada{
                                         double resprating=sc.nextInt();
                                         if(resprating <0 | resprating >10){
                                             System.out.println("rating no aceptado, especifique el número según la regla");
+                                        }else{
+                                            insercion=new Terror(insNombre,insAutor,insIsbn,insnum,resprating);
+                                            biblioteca.agregarLibro(insercion);
+                                            exitrating=true;
                                         }
-                                        insercion=new Terror(insNombre,insAutor,insIsbn,insnum,resprating);
-                                        biblioteca.agregarLibro(insercion);
-                                        exitrating=true;
                                     }
                                     break;
                                 case 3: //NOVELA POLICIACA
                                     System.out.println("Indique de qué tipo es la trama: Escriba Intriga o Misterio");
                                         String insert2=sc.next();
+                                        encontrado=false;
                                         for (Trama item: Trama.values()){
                                             if (item.name().equalsIgnoreCase(insert2)) {
                                                 System.out.println("Indique el número de personajes a añadir:");
@@ -92,11 +103,17 @@ public class Entrada{
                                                     System.out.println("Inserte personaje nº: " + (i+1));
                                                     numeroPjs[i]=sc.nextLine();
                                                 }
+                                                encontrado=true;
                                                 insercion=new Policiaca(insNombre,insAutor,insIsbn,insnum,item,numeroPjs);
                                                 biblioteca.agregarLibro(insercion);
                                                 break;
                                             }
                                         }
+                                    if(encontrado){
+                                        break;
+                                    }else{
+                                        System.out.println("No se ha podido asignar el tipo de humor, cancleando operación.");
+                                    }
                                     break;
                                 default:
                                     System.out.println("-------------");
@@ -131,7 +148,7 @@ public class Entrada{
                         System.out.println("Esta gestionando sus catálogos");
                         System.out.println("1. Construir catálogo." + " ----- " + "2. Agregar libro al catálogo."+ " ----- " + "3. Quitar libro del catálogo.");
                         System.out.println("4. Buscar libro en el catálogo." + " ----- " + "5. Mostrar todos los libros del catálogo" + " ----- " + "6. Eliminar un catálogo.");
-                        System.out.println("7. Cancelar operación");
+                        System.out.println("7. Cancelar operación.");
                         respuesta=sc.nextInt();
                         sc.nextLine();
                         switch (respuesta){
