@@ -15,48 +15,30 @@ public abstract class Libro {
         this.numPag = numPag;
     }
 
-    public String getTitulo() {
-        return titulo;
-    }
+    public String getTitulo() {return titulo;}
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
+    public void setTitulo(String titulo) {this.titulo = titulo;}
 
-    public String getAutor() {
-        return autor;
-    }
+    public String getAutor() {return autor;}
 
-    public void setAutor(String autor) {
-        this.autor = autor;
-    }
+    public void setAutor(String autor) {this.autor = autor;}
 
-    public String getIsbn() {
-        return isbn;
-    }
+    public String getIsbn() {return isbn;}
 
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
-    }
+    public void setIsbn(String isbn) {this.isbn = isbn;}
 
-    public int getNumPag() {
-        return numPag;
-    }
+    public int getNumPag() {return numPag;}
 
-    public void setNumPag(int numPag) {
-        this.numPag = numPag;
-    }
+    public void setNumPag(int numPag) {this.numPag = numPag;}
 
     @Override
     public String toString() {
-        return "Libro{" +
-                "titulo='" + titulo + '\'' +
-                ", autor='" + autor + '\'' +
-                ", isbn='" + isbn + '\'' +
-                ", numPag=" + numPag +
-                '}';
+        return
+                "Titulo:'" + titulo + '\'' +
+                ", Autor:'" + autor + '\'' +
+                ", ISBN:'" + isbn + '\'' +
+                ", Número de páginas:" + numPag;
     }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -65,8 +47,6 @@ public abstract class Libro {
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(titulo, autor, isbn, numPag);
-    }
+    public int hashCode() {return Objects.hash(titulo, autor, isbn, numPag);}
 }
 

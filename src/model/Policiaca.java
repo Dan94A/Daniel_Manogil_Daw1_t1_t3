@@ -18,31 +18,13 @@ public final class Policiaca extends Libro{
         this.trama = trama;
         this.personajes = personajes;
     }
+    public Trama getTrama() {return trama;}
 
-    public Trama getTrama() {
-        return trama;
-    }
+    public void setTrama(Trama trama) {this.trama = trama;}
 
-    public void setTrama(Trama trama) {
-        this.trama = trama;
-    }
+    public String[] getPersonajes() {return personajes;}
 
-    public String[] getPersonajes() {
-        return personajes;
-    }
-
-    public void setPersonajes(String[] personajes) {
-        this.personajes = personajes;
-    }
-
-    @Override
-    public String toString() {
-        return "Policiaca{" +
-                "trama=" + trama +
-                ", personajes=" + Arrays.toString(personajes) +
-                '}' + super.toString();
-    }
-
+    public void setPersonajes(String[] personajes) {this.personajes = personajes;}
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -50,11 +32,16 @@ public final class Policiaca extends Libro{
         if (!super.equals(o)) return false;
         return trama == policiaca.trama && Arrays.equals(personajes, policiaca.personajes);
     }
-
     @Override
     public int hashCode() {
         int result = Objects.hash(super.hashCode(), trama);
         result = 31 * result + Arrays.hashCode(personajes);
         return result;
+    }
+    @Override
+    public String toString() {
+        return super.toString() +
+                ", Trama: " + trama +
+                ", Listado de personajes:" + Arrays.toString(personajes) ;
     }
 }
