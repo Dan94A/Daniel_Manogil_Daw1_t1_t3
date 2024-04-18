@@ -2,10 +2,12 @@ package model;
 
 import model.enums.Trama;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
 
-public final class Policiaca extends Libro{
+public final class Policiaca extends Libro implements Serializable {
+    private static final long serialVersionUID = 6529685098267757689L;
     private Trama trama;
     private String[]personajes;
 

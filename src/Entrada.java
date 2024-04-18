@@ -1,21 +1,15 @@
 import Exceptions.CantidadMaximaDeLibrosException;
 import Exceptions.LibroEnBusquedaNoEncontradoException;
 import controller.Biblioteca;
-import controller.Catalogo;
 import model.enums.*;
-import java.util.InputMismatchException;
+import java.io.IOException;
 import java.util.Scanner;
 import model.*;
-
 public class Entrada{
-    public static void main(String[] args) throws CantidadMaximaDeLibrosException, LibroEnBusquedaNoEncontradoException {
+    public static void main(String[] args) throws CantidadMaximaDeLibrosException, LibroEnBusquedaNoEncontradoException, IOException, ClassNotFoundException {
         Biblioteca<Libro>biblioteca=new Biblioteca<>();
         Scanner sc= new Scanner(System.in);
-        Libro comedia= new Comedia ("1","1","1",1,Humor.Negro);
-        Libro comedia2= new Comedia ("5","2","1",1,Humor.Blanco);
-        biblioteca.agregarLibro(comedia);
-        biblioteca.agregarLibro(comedia2);
-        int respuesta;
+        int respuesta; //CREACIÓN BIBLIOTECA
         System.out.println("BIENVENIDO A SU BIBLIOTECA!");
         System.out.println("INTRODUCCIÓN DE DATOS PERSONALES");
         System.out.println("Introduzca el nombre de su biblioteca. Ejemplo: Biblioteca central de Madrid");
@@ -24,6 +18,7 @@ public class Entrada{
         biblioteca.setDirector(sc.nextLine());
         System.out.println("Su biblioteca ha sido creada, a continuación se le mostrará un menú con las opciones disponibles.");
         boolean exit=false;
+        //MENU PRINCIPAL
         do{
             System.out.println("|------------------------------------------------------------|");
             biblioteca.mostrardatosBiblioteca();
@@ -33,7 +28,7 @@ public class Entrada{
             respuesta=sc.nextInt();
             sc.nextLine();
             switch (respuesta){
-                case 1:
+                case 1://MENU DE BIBLIOTECA
                     System.out.println("Esta gestionando su biblioteca");
                     System.out.println("1. Agregar libro nuevo." + " ----- " + "2. Eliminar libro." );
                     System.out.println("3. Buscar libro."  + " ----- " +  "4. Mostrar libros de la biblioteca.");
@@ -42,7 +37,7 @@ public class Entrada{
                     int navegacion=sc.nextInt();
                     sc.nextLine();
                     switch (navegacion){
-                        case 1:
+                        case 1://CREAR LIBRO EN BIBLIOTECA
                             Libro insercion;
                             System.out.println("|------------------------------------------------------------|");
                             System.out.println("Inserte título del libro:");
@@ -58,7 +53,7 @@ public class Entrada{
                             navegacion=sc.nextInt();
                             sc.nextLine();
                             switch (navegacion){
-                                case 1:
+                                case 1://DE HUMOR
                                     Humor.mostrarDescripcionesHumor();
                                     System.out.println("|------------------------------------------------------------|");
                                     System.out.println("Escriba el tipo de humor del libro:");
@@ -67,13 +62,11 @@ public class Entrada{
                                         if (item.name().equalsIgnoreCase(insert)){
                                             insercion=new Comedia(insNombre,insAutor,insIsbn,insnum,item);
                                             biblioteca.agregarLibro(insercion);
-                                        }else{
-                                            System.out.println("No se reconoce valor, volviendo al menú");
                                             break;
                                         }
                                     }
                                     break;
-                                case 2:
+                                case 2://DE TERROR (como este proyecto xD)
                                     System.out.println("Indique del 1 al 10 el rating de este libro");
                                     boolean exitrating=false;
                                     while (!exitrating){
@@ -86,7 +79,7 @@ public class Entrada{
                                         exitrating=true;
                                     }
                                     break;
-                                case 3:
+                                case 3: //NOVELA POLICIACA
                                     System.out.println("Indique de qué tipo es la trama: Escriba Intriga o Misterio");
                                         String insert2=sc.next();
                                         for (Trama item: Trama.values()){
@@ -101,8 +94,6 @@ public class Entrada{
                                                 }
                                                 insercion=new Policiaca(insNombre,insAutor,insIsbn,insnum,item,numeroPjs);
                                                 biblioteca.agregarLibro(insercion);
-                                            }else{
-                                                System.out.println("No se encuentra valor, volviendo al menú");
                                                 break;
                                             }
                                         }
@@ -114,70 +105,86 @@ public class Entrada{
                                     break;
                             }
                             break;
-                        case 2:
+                        case 2: //ELIMINAR LIBRO DE BIBLIOTECA
                             System.out.println("Va a eliminar un libro de la biblioteca:\n" + "Inserte el ISBN a buscar");
                             String respString=sc.next();
                             biblioteca.eliminarLibro(biblioteca.buscarLibro(respString));
                             break;
-                        case 3:
+                        case 3: //BUSCAR LIBRO EN BIBLIOTECA
                             System.out.println("Va a buscar un libro de la biblioteca:\n" + "Inserte el ISBN a buscar");
                             respString=sc.next();
                             biblioteca.buscarLibro(respString);
                             break;
-                        case 4:
+                        case 4: //MOSTRAR LIBROS DE BIBLIOTECA
                             System.out.println("Mostrando todos los libros de su biblioteca");
                             biblioteca.mostrarLibros();
                             break;
-                        case 5:
+                        case 5: //CANCELLED
                             System.out.println("Cancelando operación.");
                             break;
                         default:
                             break;
                     }
                     break;
-                case 2:
-                    System.out.println("Esta gestionando sus catálogos");
-                    System.out.println("1. Construir catálogo." + " ----- " + "2. Agregar libro al catálogo."+ " ----- " + "3. Quitar libro del catálogo.");
-                    System.out.println("4. Buscar libro en el catálogo." + " ----- " + "5. Mostrar todos los libros del catálogo" + " ----- " + "6. Eliminar un catálogo.");
-                    System.out.println("7. Cancelar operación");
-                    respuesta=sc.nextInt();
-                    sc.nextLine();
-                    switch (respuesta){
-                        case 1:
-                            biblioteca.setCatalogo(biblioteca.crearCatalogo());
-                            break;
-                        case 2:
-                            System.out.println("Va a añadir un libro al catálogo.");
-                            System.out.println("Ingrese el isbn que desea ingresar al catalogo");
-                            String resStr=sc.next();
-                            biblioteca.agregarlibrocat(biblioteca.buscarLibro(resStr));
-                            break;
-                        case 3:
-                            System.out.println("Va a quitar un libro del catálogo:");
-                            biblioteca.quitarlibroCat();
-                            break;
-                        case 4:
-                            System.out.println("Va a buscar un libro en el catálogo.");
-                            System.out.println("Ingrese el isbn que desea ingresar al catalogo");
-                            resStr=sc.next();
-                            biblioteca.buscarCatalogo(resStr);
-                            break;
-                        case 5:
-                            System.out.println("Va a mostrarse el contenido de su catálogo.");
-                            biblioteca.mostrarcatalogo();
-                            break;
-                        case 6:
-                            System.out.println("Va a eliminar el catálogo creado");
-                            biblioteca.eliminarcatalogo();
-                            System.out.println("Catálogo eliminado");
-                            break;
-                        case 7:
-                            System.out.println("Cancelando operación");
-                            break;
+                case 2://MENU DE CATÁLOGO
+                    try{
+                        System.out.println("Esta gestionando sus catálogos");
+                        System.out.println("1. Construir catálogo." + " ----- " + "2. Agregar libro al catálogo."+ " ----- " + "3. Quitar libro del catálogo.");
+                        System.out.println("4. Buscar libro en el catálogo." + " ----- " + "5. Mostrar todos los libros del catálogo" + " ----- " + "6. Eliminar un catálogo.");
+                        System.out.println("7. Cancelar operación");
+                        respuesta=sc.nextInt();
+                        sc.nextLine();
+                        switch (respuesta){
+                            case 1://CREACIÓN DE CATÁLOGO
+                                biblioteca.setCatalogo(biblioteca.crearCatalogo());
+                                break;
+                            case 2: //AÑADIR LIBRO DE LA BIBLIOTECA AL CATÁLOGO
+                                System.out.println("Va a añadir un libro al catálogo.");
+                                System.out.println("Ingrese el isbn que desea ingresar al catalogo");
+                                String resStr=sc.next();
+                                biblioteca.agregarlibrocat(biblioteca.buscarLibro(resStr));
+                                break;
+                            case 3: //QUITAR LIBRO DEL CATÁLOGO
+                                System.out.println("Va a quitar un libro del catálogo:");
+                                biblioteca.quitarlibroCat();
+                                break;
+                            case 4://BUSCAR LIBRO EN EL CATÁLOGO
+                                System.out.println("Va a buscar un libro en el catálogo.");
+                                System.out.println("Ingrese el isbn que desea ingresar al catalogo");
+                                resStr=sc.next();
+                                biblioteca.buscarCatalogo(resStr);
+                                break;
+                            case 5: //MOSTRAR LIBROS DEL CATÁLOGO
+                                System.out.println("Va a mostrarse el contenido de su catálogo.");
+                                biblioteca.mostrarcatalogo();
+                                break;
+                            case 6: //ELIMINAR CATÁLOGO
+                                System.out.println("Va a eliminar el catálogo creado");
+                                biblioteca.eliminarcatalogo();
+                                System.out.println("Catálogo eliminado");
+                                break;
+                            case 7: //CANCELLED
+                                System.out.println("Cancelando operación");
+                                break;
+                            default:
+                                System.out.println("Orden no reconocida");
+                                break;
+                        }
+                    } catch(NullPointerException e){ //DEBES CONSTRUIR CATÁLOGO PARA OPERARLO
+                        System.out.println("-------------ERROR-------------");
+                        System.out.println("No ha construido un catálogo");
                     }
                     break;
+                    //EXPORTACIÓN DE CATÁLOGO
                 case 3:
-                    break;
+                    try{ //DEBES CONSTRUIR CATÁLOGO PARA EXPORTARLO
+                        System.out.println("Exportando catálogo.");
+                        biblioteca.exportarCatalogo();
+                        break;
+                    }catch(RuntimeException e){
+                        System.out.println("-------------ERROR-------------");
+                        System.out.println("No ha construido un catálogo");
+                }
                 default:
                     System.out.println("Opción no reconocida, saliendo.");
                     exit=true;

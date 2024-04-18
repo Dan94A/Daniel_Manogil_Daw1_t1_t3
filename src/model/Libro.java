@@ -1,8 +1,9 @@
 package model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public abstract class Libro {
+public abstract class Libro implements Serializable {
     private String titulo,autor,isbn;
     private int numPag;
 

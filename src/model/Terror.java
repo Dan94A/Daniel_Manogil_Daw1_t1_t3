@@ -1,8 +1,10 @@
 package model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public final class Terror extends Libro{
+public final class Terror extends Libro implements Serializable {
+    private static final long serialVersionUID = 6529685098267757690L;
     private Double rating;
 
     public Terror() {}

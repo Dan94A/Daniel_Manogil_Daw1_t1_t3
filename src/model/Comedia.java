@@ -2,9 +2,11 @@ package model;
 
 import model.enums.Humor;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Comedia extends Libro {
+public class Comedia extends Libro implements Serializable {
+    private static final long serialVersionUID = 6529685092312757689L;
     private Humor tipohumor;
 
     public Comedia() {}

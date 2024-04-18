@@ -1,7 +1,10 @@
 package controller;
 import Exceptions.CantidadMaximaDeLibrosException;
 import Exceptions.LibroEnBusquedaNoEncontradoException;
+import Exceptions.NoExisteCatalogoExcepcion;
 import model.Libro;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -9,7 +12,7 @@ public class Biblioteca<T extends Libro>{
     private String nombre,director;
     private Catalogo catalogo;
     private ArrayList<T> biblioteca;
-
+    //CONSTRUCTORES
     public Biblioteca() {
         biblioteca=new ArrayList<>();
     }
@@ -20,7 +23,7 @@ public class Biblioteca<T extends Libro>{
         this.catalogo = catalogo;
         this.biblioteca = biblioteca;
     }
-
+    //SETTERS Y GETTERS
     public String getNombre() {return nombre;}
 
     public void setNombre(String nombre) {this.nombre = nombre;}
@@ -37,12 +40,11 @@ public class Biblioteca<T extends Libro>{
 
     public void setBiblioteca(ArrayList<T> biblioteca) {this.biblioteca = biblioteca;}
 
-    public void mostrardatosBiblioteca(){
+    public void mostrardatosBiblioteca(){ //MOSTRAR DATOS BÁSICOS DE BIBLIOTECA
         System.out.println("Biblioteca: " + getNombre() +" ---- " + "Director: " + getDirector());
     }
-
-    //EMPIEZA LA BIBLIOTECAAAAAAAAAAAAAAAAAAAA
-    public void agregarLibro(T libro) {
+    //OPCIONES DE BIBLIOTECA
+    public void agregarLibro(T libro) { //AGREGAR LIBRO A BIBLIOTECA
         System.out.println("------>");
         if (estaLibro2(libro) != null){
 
@@ -52,7 +54,7 @@ public class Biblioteca<T extends Libro>{
             System.out.println("Cancelado");
         }
     }
-    public Libro estaLibro2(T libro){
+    public Libro estaLibro2(T libro){ //CONFIRMACIÓN PARA NO AÑADIR DUPLICADOS
         System.out.println("------>");
         for (Libro item: biblioteca){
             if(item.equals(libro)){
@@ -63,14 +65,14 @@ public class Biblioteca<T extends Libro>{
         System.out.println("Libro no encontrado en la biblioteca");
         return libro;
     }
-    public void mostrarLibros() {
+    public void mostrarLibros() { //MOSTRAR TODOS LOS LIBROS DE LA BIBLIOTECA
         System.out.println("|------------------------------------------------------------|");
         System.out.println("Desplegando lista de libros:");
         for (T item : biblioteca){
             System.out.println(item.toString());
         }
     }
-    public ArrayList<T> buscarLibro(String isbn) throws LibroEnBusquedaNoEncontradoException{
+    public ArrayList<T> buscarLibro(String isbn) throws LibroEnBusquedaNoEncontradoException{ //BUSCAR UN LIBRO, SIRVE PARA AGREGAR LIBROS AL CATÁLOGO DESDE LA BIBLIOTECA
         int incremento=0;
         ArrayList<T>conjuntoBusqueda=new ArrayList<>();
        for(T item:biblioteca){
@@ -79,17 +81,24 @@ public class Biblioteca<T extends Libro>{
            }
        }
        System.out.println("Se han encontrado " + conjuntoBusqueda.size() + " coincidencias");
-       if(conjuntoBusqueda.isEmpty()){
-           throw new LibroEnBusquedaNoEncontradoException("No se ha encontrado ningún libro en la biblioteca");
-       }
-       else{
-           for (T item:conjuntoBusqueda){
-               System.out.println("Libro nº"  + (incremento+1) +": "+ item.toString());
+       try{
+           if(conjuntoBusqueda.isEmpty()){
+               throw new LibroEnBusquedaNoEncontradoException();
            }
+           else{
+               for (T item:conjuntoBusqueda){
+                   System.out.println("Libro nº"  + (incremento+1) +": "+ item.toString());
+               }
+           }
+       }catch(Exception e){
+           System.out.println("\"Excepción controlada: No se ha encontrado ningún libro en la biblioteca, volviendo al menú.\"");
+       }finally{
+
        }
+
        return conjuntoBusqueda;
     }
-    public void eliminarLibro(ArrayList<T>conjuntobusqueda) {
+    public void eliminarLibro(ArrayList<T>conjuntobusqueda) { //ELIMINAR LIBRO DE BIBLIOTECA
         boolean exiteliminacion=false;
         if(conjuntobusqueda.isEmpty()){
             System.out.println("Su operación ha sido cancelada porque no hay ningun libro con este ISBN.");
@@ -119,12 +128,8 @@ public class Biblioteca<T extends Libro>{
             }while(!exiteliminacion);
         }
     }
-
-
-
-
-    //CUIDADOOOOOOOOOOOOO ESTOOOOOOOOOOO ESSSSSSSSSSS DEL CATALOGOOOOO, ARRIBA ESTA LA BIBLIOTECA
-    public Catalogo crearCatalogo(){
+    //FUNCIONES DEL CATÁLOGO
+    public Catalogo crearCatalogo(){ //CREA UN CATÁLOGO
                 Catalogo catalogo=new Catalogo();
                 Scanner sc=new Scanner(System.in);
                 System.out.println("A continuación, elija un nombre para su catálogo.");
@@ -134,9 +139,14 @@ public class Biblioteca<T extends Libro>{
                 int respCatInt= sc.nextInt();
                 catalogo.setNumLibros(respCatInt);
                 System.out.println("Su catálogo ha sido creado y a continuación se mostrará:\n");
+                System.out.println(catalogo.toString());
                 return catalogo;
     }
-    public void agregarlibrocat(ArrayList<T> conjuntobusqueda) throws CantidadMaximaDeLibrosException {
+    public void eliminarcatalogo(){ //ELIMINAR CATÁLOGO
+        catalogo=null;
+    }
+    //FUNCIONES DEL CATÁLOGO QUE NECESITAN MÉTODOS DE CATÁLOGO
+    public void agregarlibrocat(ArrayList<T> conjuntobusqueda) throws CantidadMaximaDeLibrosException { //AGREGAR LIBRO A CATÁLOGO
         boolean exit=false;
         if(conjuntobusqueda.isEmpty()){
             System.out.println("Su operación ha sido cancelada porque no hay ningun libro con este ISBN.");
@@ -166,28 +176,21 @@ public class Biblioteca<T extends Libro>{
             }while(!exit);
         }
     }
-    public void quitarlibroCat() throws LibroEnBusquedaNoEncontradoException {
+
+    public void quitarlibroCat() throws LibroEnBusquedaNoEncontradoException { //QUITAR LIBRO DE CATÁLOGO
         Scanner sc=new Scanner(System.in);
         String resStr=sc.next();
         catalogo.quitarLibro(catalogo.buscarLibro(resStr));
 
     }
-    public void buscarCatalogo(String str) throws LibroEnBusquedaNoEncontradoException {
+    public void buscarCatalogo(String str) throws LibroEnBusquedaNoEncontradoException { //BUSCAR LIBRO EN EL CATÁLOGO
         catalogo.buscarLibro(str);
     }
     public void mostrarcatalogo(){
         catalogo.mostrarLibrosCat();
-    }
-    public void eliminarcatalogo(){
-        catalogo=null;
-    }
-    @Override
-    public String toString() {
-        return "Biblioteca{" +
-                "nombre='" + nombre + '\'' +
-                ", director='" + director + '\'' +
-                ", catalogo=" + catalogo +
-                ", biblioteca=" + biblioteca +
-                '}';
+    } //MOSTRAR TODOS LOS LIBROS DEL CATÁLOGO
+
+    public void exportarCatalogo() throws IOException, ClassNotFoundException { //EXPORTAR CATÁLOGO
+        catalogo.escribirCatalogo();
     }
 }
