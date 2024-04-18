@@ -3,6 +3,7 @@ import Exceptions.LibroEnBusquedaNoEncontradoException;
 import controller.Biblioteca;
 import model.enums.*;
 import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import model.*;
 public class Entrada{
@@ -47,11 +48,17 @@ public class Entrada{
                             System.out.println("Inserte el isbn del libro:");
                             String insIsbn=sc.nextLine();
                             System.out.println("Inserte el número de páginas");
-                            int insnum=sc.nextInt();
-                            sc.nextLine();
-                            System.out.println("¿Qué género es el libro?: 1.Comedia, 2.Terror, 3.Policiaca");
-                            navegacion=sc.nextInt();
-                            sc.nextLine();
+                            int insnum=5;
+                            try{
+                                insnum=sc.nextInt();
+                                sc.nextLine();
+                                System.out.println("¿Qué género es el libro?: 1.Comedia, 2.Terror, 3.Policiaca");
+                                navegacion=sc.nextInt();
+                                sc.nextLine();
+                            }catch(InputMismatchException e){
+                                System.out.println("El valor insertado no es correcto");
+                                break;
+                            }
                             switch (navegacion){
                                 case 1://DE HUMOR
                                     Humor.mostrarDescripcionesHumor();
@@ -72,8 +79,6 @@ public class Entrada{
                                     }else{
                                         System.out.println("No se ha podido asignar el tipo de humor, cancleando operación.");
                                     }
-
-
                                     break;
                                 case 2://DE TERROR (como este proyecto xD)
                                     System.out.println("Indique del 1 al 10 el rating de este libro");
